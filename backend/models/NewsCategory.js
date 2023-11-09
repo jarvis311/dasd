@@ -15,6 +15,11 @@ import {
     }
   }
   NewsCategory.init({
+    id: {
+      type: DataTypes.BIGINT,
+      primaryKey: true,
+      autoIncrement: true,
+  },
     index: {
       type: DataTypes.INTEGER,
     },

@@ -21,8 +21,8 @@ const Edit_News_category = () => {
 
 
   const GetData = async () => {
-    const Result = await API.post("/get_News_category", {}, { headers: { Authorization: `Bearer ${token}` } })
-    setAddData(Result.data.Data)
+    const Result = await API.post("/get-news-category", {}, { headers: { Authorization: `Bearer ${token}` } })
+    setAddData(Result.data.data)
   }
 
   const addReturn = () => {
@@ -82,7 +82,7 @@ const Edit_News_category = () => {
     const Form = new FormData()
     const RecordDeleteForm = new FormData()
     AddData.forEach((row, index) => {
-      Form.append(`_id-${index}`, row._id);
+      Form.append(`id-${index}`, row.id);
       Form.append(`Image-${index}`, row.Image);
       Form.append(`name-${index}`, row.name);
       Form.append(`status-${index}`, row.status);
@@ -178,7 +178,7 @@ const Edit_News_category = () => {
                     <Button
                       variant="danger"
                       className="btn-icon-lg"
-                      onClick={() => removeReturn(detail._id, i)}
+                      onClick={() => removeReturn(detail.id, i)}
                     >
                       <i className='bx bx-minus' ></i>
                     </Button>

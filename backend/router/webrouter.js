@@ -3,6 +3,7 @@ const router = express.Router()
 import DrivingSchoolwebController from '../controller/Webapi/DrivingSchoolwebController.js';
 import AffilationAdminControllerAPI from '../controller/Webapi/AffilationAdminControllerAPI.js';
 import ServiceCenterwebController from '../controller/Webapi/ServiceCenterwebController.js';
+import { getNewsCategoryDataById, handleCreateNewsCategory, handleGetNewsCategory } from '../controller/Webapi/RTO-News/NewsCategory.controller.js';
 
 /**************Driving school state Nirmal 02-11-2023 *************************************/
 
@@ -102,6 +103,10 @@ router.post("/update_service_dealer/:id", ServiceCenterwebController.update_serv
 router.post("/get_service_dealer/:id", ServiceCenterwebController.edit_service_deler_data)
 
 
+/*****************News Category data api Nirmal 08-11-2023**************************************/
+router.post("/get-news-category", handleGetNewsCategory)
+router.post("/create-news-category", handleCreateNewsCategory)
+router.post("/get-news-category_by_id/:id", getNewsCategoryDataById)
 
 
 

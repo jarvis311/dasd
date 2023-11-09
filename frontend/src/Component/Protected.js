@@ -6,8 +6,9 @@ import Home from "../pages/Home";
 
 const Protected = () =>{
     const navigate = useNavigate();
+    const token = "ksbdj"
     let Auth = {
-        token :Cookies.get("fmljwt")
+        token :token
     }
 
 //     const Authotication = async()=>{

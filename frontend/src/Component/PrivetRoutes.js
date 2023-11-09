@@ -5,8 +5,9 @@ import { API } from "../App";
 
 const PrivetRoutes = () =>{
     const navigate = useNavigate();
+    const token = "ksbdj"
     let Auth = {
-        token :Cookies.get("fmljwt")
+        token :token
     }
 
 //     const Authotication = async()=>{

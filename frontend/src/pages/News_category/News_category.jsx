@@ -22,15 +22,15 @@ const News_category = () => {
     const [PageHook, setPageHook] = useState([])
     const [loading, setloading] = useState(true)
     const GetData = async () => {
-      const result = await API.post("/get_News_category", {}, { headers: { Authorization: `Bearer ${token}` } })
-      setData(result.data.Data)
+      const result = await API.post("/get-news-category", {}, { headers: { Authorization: `Bearer ${token}` } })
+      setData(result.data.data)
       PageGetData()
       setloading(false)
     }
   
     // Paggintion Code //
     const getData1 = (current, pageSize) => {
-      return Data.slice((current - 1) * pageSize, current * pageSize);
+      return Data?.slice((current - 1) * pageSize, current * pageSize);
     };
   
     const PerPageChange = (value) => {
@@ -171,7 +171,7 @@ const News_category = () => {
             </thead>
             <tbody>
               {
-                getData1(current, size).map((val, i) => {
+                Data.map((val, i) => {
                   return (
                     <tr>
                       <td className='text-center'>{(current === 1) ? i + 1 : current * size + i + 1 - size}</td>

@@ -18,10 +18,11 @@ const Add_News_category = () => {
     Image:[]
   }])
 
-  const GetData = async () => {
-    const Result = await API.post("/get_News_category", {}, {headers:{Authorization : `Bearer ${token}`}})
-    setAddData(Result.data.Data)
-  }
+  console.log('AddData >>>', AddData)
+  // const GetData = async () => {
+  //   const Result = await API.post("/get_News_category", {}, {headers:{Authorization : `Bearer ${token}`}})
+  //   setAddData(Result.data.Data)
+  // }
 
   const addReturn = () => {
     setAddData([
@@ -97,7 +98,6 @@ const Add_News_category = () => {
     updatedRows[index][name] = value;
     setAddData(updatedRows);
   }
-
   const submiteData = async () => {
     let count = 0
     let result
@@ -112,8 +112,8 @@ const Add_News_category = () => {
     const Form = new FormData()
     const RecordDeleteForm = new FormData()
     AddData.forEach((row, index) => {
-      Form.append(`_id-${index}`, row._id);
-      Form.append(`Image-${index}`, row.Image);
+      Form.append(`id-${index}`, row.id);
+      Form.append(`image-${index}`, row.Image);
       Form.append(`name-${index}`, row.name);
       Form.append(`status-${index}`, row.status);
     });
@@ -123,7 +123,7 @@ const Add_News_category = () => {
        result = await API.post('/Multiple_delete_News_category', RecordDeleteForm , {headers:{Authorization : `Bearer ${token}`}})
     }
 
-     result = await API.post("/create_News_category", Form , {headers:{Authorization : `Bearer ${token}`}});
+     result = await API.post("/create-news-category", Form , {headers:{Authorization : `Bearer ${token}`}});
     if(result){
       toast.success("Data Save Successfuly")
       navigate("/news_category");
@@ -131,9 +131,9 @@ const Add_News_category = () => {
   }
   }
 
-  useEffect(() => {
-    GetData()
-  }, [])
+  // useEffect(() => {
+  //   GetData()
+  // }, [])
 
   return (
     <Layout sidebar={true}>
@@ -209,7 +209,7 @@ const Add_News_category = () => {
                       <Button
                         variant="danger"
                         className="btn-icon-lg"
-                        onClick={() => removeReturn(val._id , i)}
+                        onClick={() => removeReturn(val.id , i)}
                       >
                         <i className='bx bx-minus' ></i>
                       </Button>
