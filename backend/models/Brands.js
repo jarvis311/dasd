@@ -3,6 +3,7 @@ import {
   DataTypes
 } from "sequelize";
 import db from '../config/database.js'
+import NewsHeadline from "./NewsHeadline.js";
 class Brands extends Model {
   /**
    * Helper method for defining associations.
@@ -65,4 +66,17 @@ Brands.init({
   tableName: 'brands',
   timestamps: false
 });
+
+Brands.hasMany(NewsHeadline, {
+  as: 'newsVehicleBrands',
+  foreignKey: 'vehicle_category_id'
+});
+
+// NewsHeadline Model
+NewsHeadline.belongsTo(Brands, {
+  as: 'newsVehicleBrands',
+  foreignKey: 'vehicle_category_id'
+});
+
+
 export default Brands;

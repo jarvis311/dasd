@@ -21,21 +21,21 @@ const Tag = () => {
   const [current, setCurrent] = useState(1);
   const [PageHook, setPageHook] = useState([])
   const [loading, setloading] = useState(true)
+  const [totalPageCount, setTotalPageCount] = useState('')
+
+
+
   const GetData = async () => {
-    const result = await API.post("/get_tags", {}, { headers: { Authorization: `Bearer ${token}` } })
-    setData(result.data.Data)
+    const result = await API.post("/get-tags", {limit:size, page:current}, { headers: { Authorization: `Bearer ${token}` } })
+    setData(result.data.data)
+    setTotalPageCount(result.data.totalcount)
     PageGetData()
     setloading(false)
   }
 
-  // Paggintion Code //
-  const getData1 = (current, pageSize) => {
-    return Data.slice((current - 1) * pageSize, current * pageSize);
-  };
-
   const PerPageChange = (value) => {
     setSize(value);
-    const newPerPage = Math.ceil(Data.length / value);
+    const newPerPage = Math.ceil(totalPageCount / value);
     if (current > newPerPage) {
       setCurrent(newPerPage);
     }
@@ -103,9 +103,7 @@ const Tag = () => {
       })
       .then(async (result) => {
         if (result.isConfirmed) {
-          const form = new FormData()
-          form.append('id', id)
-          await API.post(`/delete_tags`, form, { headers: { Authorization: `Bearer ${token}` } });
+          await API.post(`/detete-tag/${id}`, {}, { headers: { Authorization: `Bearer ${token}` } });
           GetData();
         } else {
           count = 10
@@ -116,7 +114,7 @@ const Tag = () => {
 
   useEffect(() => {
     GetData()
-  }, [])
+  }, [current, size])
   return (
     <Layout sidebar={true}>
       <div className="page-heading">
@@ -152,16 +150,16 @@ const Tag = () => {
               </thead>
               <tbody>
                 {
-                  getData1(current, size).map((val, i) => {
+                  Data.map((val, i) => {
                     return (
                       <tr>
                         <td className='text-center'>{(current === 1) ? i + 1 : current * size + i + 1 - size}</td>
                         <td>{val.name}</td>
                         <td className='text-center'>
-                          <Link to={`/view/tag/${val._id}`}>
+                          <Link to={`/view/tag/${val.id}`}>
                             <Button variant="outline-warning" size="sm" className="me-2 btn-icon"><i className='bx bx-show'></i></Button>
                           </Link>
-                          <Button variant="outline-danger" onClick={() => DeleteData(val._id)} size="sm" className="btn-icon"><i className='bx bx-trash-alt' ></i></Button>
+                          <Button variant="outline-danger" onClick={() => DeleteData(val.id)} size="sm" className="btn-icon"><i className='bx bx-trash-alt' ></i></Button>
                         </td>
                       </tr>
                     )
@@ -169,7 +167,7 @@ const Tag = () => {
                 }
               </tbody>
               {
-                loading ==false && Data.length === 0 ? <tr>
+                loading ==false && totalPageCount === 0 ? <tr>
                   <td colSpan="100%" className="p-0">
                     <div className='no-found'>
                       <img src="../../not-found/image.svg" />
@@ -179,13 +177,13 @@ const Tag = () => {
                 </tr> : ""
               }
             </Table>
-            {Data.length > size ? (
+            {totalPageCount > size ? (
               <div className="pagination-custom">
                 <Pagination
                   showTitle={false}
                   className="pagination-data"
                   onChange={paginationData}
-                  total={Data.length}
+                  total={totalPageCount}
                   current={current}
                   pageSize={size}
                   showSizeChanger={false}

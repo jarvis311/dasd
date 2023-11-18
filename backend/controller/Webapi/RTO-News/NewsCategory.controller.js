@@ -51,7 +51,6 @@ export const handleCreateNewsCategory = async (req, res) => {
             if (property !== 'image') {
                 record[property] = value;
             }
-
             records[recordIndex] = record;
         }
 
@@ -64,7 +63,6 @@ export const handleCreateNewsCategory = async (req, res) => {
                 records[index].image = img.image;
             }
         }
-        console.log('records', records)
         if (records) {
             for (const item of records) {
                 await NewsCategory.create({

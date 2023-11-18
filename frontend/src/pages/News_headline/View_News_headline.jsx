@@ -17,9 +17,9 @@ const View_News_headline = () => {
   const params = useParams();
   const [CategoryData, setCategoryData] = useState([])
   const [DropDropValue, setDropDropValue] = useState([])
-  const [id, setid] = useState({ _id: params.id });
+  const [id, setid] = useState({ id: params.id });
   const [Data, SetData] = useState({
-    _id: "",
+    id: "",
     category_id: "",
     vehicale_category_id: "",
     brand_id: "",
@@ -34,53 +34,53 @@ const View_News_headline = () => {
     status: "",
   });
   const Dropdown_Name = async () => {
-    const Result = await API.post("/get_news_headline", {}, { headers: { Authorization: `Bearer ${token}` } })
+    const Result = await API.post("/get-news-headlines", {}, { headers: { Authorization: `Bearer ${token}` } })
     DropDownArr = []
     reloadId = []
     // DropDownArr.push({label:"Select Title" , value:"" })
-    Result.data.Data.map((val, i) => {
-      DropDownArr.push({ label: val.title, value: val._id })
-      reloadId.push(val._id)
+    Result.data.data.map((val, i) => {
+      DropDownArr.push({ label: val.title, value: val.id })
+      reloadId.push(val.id)
     })
     setDropDropValue(DropDownArr)
   }
-
   const Getview = async (Eid) => {
-    const result = await API.post(`/get_news_headline_ID/${Eid !== "" ? Eid : id._id}`, {}, { headers: { Authorization: `Bearer ${token}` } });
-    SetData({
-      _id: result.data.Data[0]._id,
-      // category_id: result.data.Data[0].category_id.name,
-      vehicale_category_id: result.data.Data[0].vehicale_category_id.name,
-      brand_id: result.data.Data[0].brand_id.name,
-      tag_id: result.data.Data[0].tag_id.name,
-      title: result.data.Data[0].title,
-      description: result.data.Data[0].description,
-      news_url: result.data.Data[0].news_url,
-      headtag: result.data.Data[0].headtag,
-      date: result.data.Data[0].date,
-      image: result.data.Data[0].image,
-      websiteimage: result.data.Data[0].websiteimage,
-      status: result.data.Data[0].status,
+    const result = await API.post(`/get-news-headline/${Eid || params.id}`, {}, { headers: { Authorization: `Bearer ${token}` } });
+    console.log('result >>>>', result)
+    SetData({ 
+      id: result.data.data.id,
+      category_id: result?.data?.data?.newsHeadlineCategory?.name || "NA",
+      vehicale_category_id: result?.data?.data?.newsVehicleCategory?.name || "NA",
+      brand_id: result?.data?.data?.newsVehicleBrands?.name,
+      tag_id: result?.data?.data?.tag_id?.name || "NA",
+      title: result.data.data.title,
+      description: result.data.data.description,
+      news_url: result.data.data.news_url,
+      headtag: result.data.data.headtag,
+      date: result.data.data.date,
+      image: result.data.data.image,
+      websiteimage: result.data.data.websiteimage,
+      status: result.data.data.status,
     });
 
     var devname = []
-    result?.data?.Data[0].category_id?.map((val) => {
+    result?.data?.data.newsHeadlineCategory?.map((val) => {
             devname.push(val.name)
       })
       setCategoryData(devname)
   };
 
   const selectpickerData = (e) => {
-    setid({ _id: e });
+    setid({ id: e });
     Getview(e);
   };
 
   useEffect(() => {
     Dropdown_Name()
-    Getview("")
+    Getview()
   }, [])
 
-
+  console.log('Data >>>>>', Data)
   let count = 10
   let swalCountdownInterval
   const Deleteproject = async (id) => {
@@ -119,17 +119,17 @@ const View_News_headline = () => {
       })
       .then(async (result) => {
         if (result.isConfirmed) {
-          const ind = reloadId.indexOf(Data._id)
+          const ind = reloadId.indexOf(Data.id)
           reloadId.splice(ind, 1)
           const formdata = new FormData()
-          formdata.append("id", Data._id)
+          formdata.append("id", Data.id)
           const result = await API.post("/delete_news_headline", formdata, { headers: { Authorization: `Bearer ${token}` } });
           if (reloadId.length === 0) {
             // window.location.replace(`http://localhost:3000/news_Headline`)
             window.location.replace(`${process.env.REACT_APP_BASE_URL}news_Headline`)
           } else {
-            // window.location.replace(`http://localhost:3000/view/news_Headline/${reloadId[0]}`)
-            window.location.replace(`${process.env.REACT_APP_BASE_URL}view/news_Headline/${reloadId[0]}`)
+            // window.location.replace(`http://localhost:3000/view/news_Headline/${reloddId}`)
+            window.location.replace(`${process.env.REACT_APP_BASE_URL}view/news_Headline/${reloddId}`)
           }
         } else {
           count = 10
@@ -138,14 +138,13 @@ const View_News_headline = () => {
       });
   };
 
-
   return (
     <Layout sidebar={true}>
       <div className="page-heading">
         <h3><Link to="/news_Headline" className='btn btn-primary btn-icon-lg me-3'><i className='bx bxs-left-arrow-alt'></i></Link>View News Headline</h3>
         <div className="page-heading-right">
-          <SelectPicker data={DropDropValue} defaultValue={id._id} cleanable={false} className="wv-200 my-1 ms-3" onChange={(e) => selectpickerData(e)} placeholder="Select Title" placement="bottomEnd" />
-          <Link to={`/Edit/news_Headline/${id._id}`}>
+          <SelectPicker data={DropDropValue} defaultValue={id.id} cleanable={false} className="wv-200 my-1 ms-3" onChange={(e) => selectpickerData(e)} placeholder="Select Title" placement="bottomEnd" />
+          <Link to={`/Edit/news_Headline/${id.id}`}>
             <Button variant="primary ms-3 my-1" value="edit">Edit</Button>
           </Link>
           <Button variant="danger ms-3 my-1 btn-icon-lg" type="button" onClick={(i) => Deleteproject()}><i className="bx bx-trash-alt"></i></Button>

@@ -22,7 +22,8 @@ const Add_News = () => {
     })
     var news
 
-
+    console.log('New_data >>>', New_data)
+    console.log('Data >>>', Data)
     const News_Headline_dropdown = async () => {
         const resut = await API.post("/get_news_headline", {}, { headers: { Authorization: `Bearer ${token}` } });
         News_Headline_Array = []

@@ -21,14 +21,13 @@ const View_News = () => {
     const ShowData = async(id)=>{
         const Form = new FormData()
         Form.append('id',params.id)
-        const Result = await API.post(`/get_news_ID/${params.id}`, {} , {headers:{Authorization: `Bearer ${token}`}})
-        setNewsData(Result.data.Data[0].news.replaceAll(",", "\n"))
+        const Result = await API.post(`/get-news/${params.id}`, {} , {headers:{Authorization: `Bearer ${token}`}})
+        setNewsData(Result.data.data.news.replaceAll(",", "\n"))
         setData({
-            _id:Result.data.Data[0]._id,
-            news_id:Result.data.Data[0].news_headline_id._id,
+            id:Result.data.data.id,
+            news_id:Result.data.data.NewsHeadLineTitle._id,
         })
     }
-
     useEffect(() => {
         ShowData()
     }, [])

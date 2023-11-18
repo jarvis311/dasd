@@ -195,7 +195,7 @@ function App() {
                             <Route path="/Edit/news/:id" element={<Edit_News />} />
 
                             <Route path="/tag" element={<Tag />} />
-                            <Route path="/Add/tag" element={<Add_tag />} />
+                            <Route path="/Add/tag" element={<Edit_tag />} />
                             <Route path="/view/tag/:id" element={<View_tag />} />
                             <Route path="/Edit/tag/:id" element={<Edit_tag />} />
 

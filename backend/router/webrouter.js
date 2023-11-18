@@ -4,6 +4,9 @@ import DrivingSchoolwebController from '../controller/Webapi/DrivingSchoolwebCon
 import AffilationAdminControllerAPI from '../controller/Webapi/AffilationAdminControllerAPI.js';
 import ServiceCenterwebController from '../controller/Webapi/ServiceCenterwebController.js';
 import { getNewsCategoryDataById, handleCreateNewsCategory, handleGetNewsCategory } from '../controller/Webapi/RTO-News/NewsCategory.controller.js';
+import { handleCreatNewsHeadline, handleFetchNewsHeadline, handleGetBrandOptionsIdWise, handleGetCategoryOptions, handleGetNewsCategoryById, handleGetNewsHeadlinesCategoryOptions, handleUpdateNewsHeadlines } from '../controller/Webapi/RTO-News/NewsHeadline.controller.js';
+import { CreateNewTags, GetAllTags, GetTagById, RemoveTag, UpdateTag } from '../controller/Webapi/RTO-News/NewsTag.controller.js';
+import { CreateNewNews, GetAllNews, GetNewsById, RemoveNews, UpdateNews } from '../controller/Webapi/RTO-News/News.controller.js';
 
 /**************Driving school state Nirmal 02-11-2023 *************************************/
 
@@ -103,11 +106,34 @@ router.post("/update_service_dealer/:id", ServiceCenterwebController.update_serv
 router.post("/get_service_dealer/:id", ServiceCenterwebController.edit_service_deler_data)
 
 
-/*****************News Category data api Nirmal 08-11-2023**************************************/
+/*****************News Category data api Jignesh Patel 08-11-2023**************************************/
 router.post("/get-news-category", handleGetNewsCategory)
 router.post("/create-news-category", handleCreateNewsCategory)
 router.post("/get-news-category_by_id/:id", getNewsCategoryDataById)
 
+
+/*****************News Headlines data api Jignesh Patel 08-11-2023**************************************/
+router.post("/get-news-headlines", handleFetchNewsHeadline)
+router.post("/get-news-headline/:id", handleGetNewsCategoryById)
+router.post("/create-news-headline", handleCreatNewsHeadline)
+router.post("/get-news-headline-category-dropdown", handleGetNewsHeadlinesCategoryOptions)
+router.post("/get-news-category-dropdown", handleGetCategoryOptions)
+router.post("/get-news-brand-dropdown", handleGetBrandOptionsIdWise)
+router.post("/update-news-headline/:id", handleUpdateNewsHeadlines)
+
+/*****************Tags data api Jignesh Patel 08-11-2023**************************************/
+router.post("/get-tags", GetAllTags)
+router.post("/get-tag/:id", GetTagById)
+router.post("/create-tag", CreateNewTags)
+router.post("/detete-tag/:id", RemoveTag)
+router.post("/update-tag/:id", UpdateTag)
+
+/*****************Tags data api Jignesh Patel 08-11-2023**************************************/
+router.post("/get-news", GetAllNews)
+router.post("/get-news/:id", GetNewsById)
+router.post("/create-news", CreateNewNews)
+router.post("/detete-news/:id", RemoveNews)
+router.post("/update-news/:id", UpdateNews)
 
 
 

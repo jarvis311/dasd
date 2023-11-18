@@ -50,4 +50,6 @@ import {
     tableName: 'news_category',
     timestamps: false
   });
+
+  
   export default NewsCategory;

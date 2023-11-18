@@ -43,10 +43,6 @@ const News_headline = () => {
 
 
     // Paggintion Code //
-    const getData1 = (current, pageSize) => {
-        return Data.slice((current - 1) * pageSize, current * pageSize);
-    };
-
     const PerPageChange = (value) => {
         setSize(value);
         const newPerPage = Math.ceil(Data.length / value);
@@ -71,11 +67,11 @@ const News_headline = () => {
     };
 
     const GetData = async () => {
-        const Result = await API.post("/get_news_headline", {}, { headers: { Authorization: `Bearer ${token}` } })
-        setData(Result.data.Data)
+        const Result = await API.post("/get-news-headlines", {}, { headers: { Authorization: `Bearer ${token}` } })
+        setData(Result.data.data)
         var devname = []
-        Result?.data?.Data?.map((val) => {
-            val.category_id.map((valData,i)=>{
+        Result?.data?.data?.map((val) => {
+            val.newsHeadlineCategory.map((valData,i)=>{
                 devname.push(valData.name)
             })
           })
@@ -136,9 +132,7 @@ const News_headline = () => {
             })
             .then(async (result) => {
                 if (result.isConfirmed) {
-                    const form = new FormData()
-                    form.append('id', id)
-                    await API.post(`/delete_news_headline`, form, { headers: { Authorization: `Bearer ${token}` } });
+                    await API.post(`/delete_news_headline/${id}`, {}, { headers: { Authorization: `Bearer ${token}` } });
                     GetData();
                 } else {
                     count = 10
@@ -187,9 +181,9 @@ const News_headline = () => {
                     </thead>
                     <tbody>
                         {
-                            getData1(current, size).map((val, i) => {
+                            Data.map((val, i) => {
                                 lp = []
-                                val?.category_id?.map((v) => {
+                                val?.newsHeadlineCategory?.map((v) => {
                                 lp.push(v.name)
                                 })
                                 return (
@@ -206,11 +200,11 @@ const News_headline = () => {
                                                 </a>
                                             </Fancybox>
                                         </td>
-                                        <td>{val.headtag}</td>
+                                        <td>{"val.headtag"}</td>
                                         <td className='text-center'>
                                             <Switch
                                                 onChange={(e) => {
-                                                    Togglechange(val._id, e, "status");
+                                                    Togglechange(val.id, e, "status");
                                                 }}
                                                 checked={val.status === 1 ? true : false}
                                                 offColor="#C8C8C8"
@@ -228,10 +222,10 @@ const News_headline = () => {
                                         </td>
                                         {/* <td>{val.is_slider}</td> */}
                                         <td className='text-center'>
-                                            <Link to={`/view/news_Headline/${val._id}`}>
+                                            <Link to={`/view/news_Headline/${val.id}`}>
                                                 <Button variant="outline-warning" size="sm" className="me-2 btn-icon"><i className='bx bx-show'></i></Button>
                                             </Link>
-                                            <Button variant="outline-danger" onClick={() => DeleteData(val._id)} size="sm" className="btn-icon"><i className='bx bx-trash-alt' ></i></Button>
+                                            <Button variant="outline-danger" onClick={() => DeleteData(val.id)} size="sm" className="btn-icon"><i className='bx bx-trash-alt' ></i></Button>
                                         </td>
                                     </tr>
                                 )

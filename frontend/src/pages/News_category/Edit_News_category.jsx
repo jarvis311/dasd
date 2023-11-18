@@ -12,7 +12,6 @@ const Edit_News_category = () => {
   const token = Cookies.get("fmljwt");
   const navigate = useNavigate()
   const [validated, setvalidated] = useState(false)
-  const [Data, setData] = useState([])
   const [AddData, setAddData] = useState([{
     name: "",
     status: 0,

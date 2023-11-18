@@ -17,8 +17,8 @@ const News = () => {
     const [current, setCurrent] = useState(1);
     const [loading, setloading] = useState(true)
     const GetData = async (req, res) => {
-        const Result = await API.post("/get_news" , {} , {headers:{Authorization: `Bearer ${token}`}})
-        setLoopData(Result.data.Data)
+        const Result = await API.post("/get-news" , {} , {headers:{Authorization: `Bearer ${token}`}})
+        setLoopData(Result.data.data)
         setloading(false)
     }
 
@@ -130,7 +130,7 @@ const News = () => {
                     return (
                       <tr>
                         <td className='text-center'>{(current === 1) ? i + 1 : current * size + i + 1 - size}</td>
-                        <td>{val.news_headline_id.title}</td>
+                        <td>{val.NewsHeadLineTitle.title}</td>
                         <td className='text-center'>
                           <Link to={`/view/news/${val._id}`}>
                             <Button variant="outline-warning" size="sm" className="btn-icon me-2"><i className='bx bx-show' ></i></Button>

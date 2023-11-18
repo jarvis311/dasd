@@ -4,6 +4,7 @@ import {
 } from "sequelize";
 import db from '../config/database.js'
 import VehicleInformation from "./VehicleInformation.js";
+import NewsHeadline from "./NewsHeadline.js";
   class Categories extends Model {
     /**
      * Helper method for defining associations.
@@ -62,4 +63,14 @@ import VehicleInformation from "./VehicleInformation.js";
     as: 'recommendedVehicles',
     foreignKey: 'category_id'
   })
+  Categories.hasMany(NewsHeadline, {
+    as: 'newsVehicleCategory',
+    foreignKey: 'vehicle_category_id'
+  });
+  
+  // NewsHeadline Model
+  NewsHeadline.belongsTo(Categories, {
+    as: 'newsVehicleCategory',
+    foreignKey: 'vehicle_category_id'
+  });
   export default  Categories;

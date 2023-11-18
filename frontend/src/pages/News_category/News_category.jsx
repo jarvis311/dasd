@@ -21,6 +21,9 @@ const News_category = () => {
     const [current, setCurrent] = useState(1);
     const [PageHook, setPageHook] = useState([])
     const [loading, setloading] = useState(true)
+
+
+    
     const GetData = async () => {
       const result = await API.post("/get-news-category", {}, { headers: { Authorization: `Bearer ${token}` } })
       setData(result.data.data)
@@ -186,7 +189,7 @@ const News_category = () => {
                       <td className='text-center'>
                         <Switch
                           onChange={(e) => {
-                            Togglechange(val._id, e, "status");
+                            Togglechange(val.id, e, "status");
                           }}
                           checked={val.status === 1 ? true : false}
                           offColor="#C8C8C8"
@@ -203,10 +206,10 @@ const News_category = () => {
                         />
                       </td>
                       <td className='text-center'>
-                        <Link to={`/view/news_category/${val._id}`}>
+                        <Link to={`/view/news_category/${val.id}`}>
                           <Button variant="outline-warning" size="sm" className="me-2 btn-icon"><i className='bx bx-show'></i></Button>
                         </Link>
-                        <Button variant="outline-danger" onClick={() => DeleteData(val._id)} size="sm" className="btn-icon"><i className='bx bx-trash-alt' ></i></Button>
+                        <Button variant="outline-danger" onClick={() => DeleteData(val.id)} size="sm" className="btn-icon"><i className='bx bx-trash-alt' ></i></Button>
                       </td>
                     </tr>
                   )

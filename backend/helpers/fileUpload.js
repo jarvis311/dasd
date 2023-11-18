@@ -74,6 +74,7 @@ async function fileUploadWithDigitalOcean(file,foldername) {
             region: process.env.DO_SPACES_REGION_NEW
         }
         const dataLoc = await s3.upload(digiCridential).promise()
+        console.log('dataLoc >>>>', dataLoc)
         if(dataLoc){
             return {
                 status : true,

@@ -16,9 +16,9 @@ const View_News_category = () => {
   const navigate = useNavigate();
   const params = useParams();
   const [variableData, setvariableData] = useState([]);
-  const [id, setid] = useState({ _id: params.id });
+  const [id, setid] = useState({ id: params.id });
   const [Data, SetData] = useState({
-    _id: "",
+    id: "",
     state_code: "",
     state_name: "",
     title: "",
@@ -32,23 +32,23 @@ const View_News_category = () => {
     DropDownArr = []
     reloadId = []
     Result.data.Data.map((val, i) => {
-      DropDownArr.push({ label: val.name, value: val._id })
-      reloadId.push(val._id)
+      DropDownArr.push({ label: val.name, value: val.id })
+      reloadId.push(val.id)
     })
     setDropDropValue(DropDownArr)
   }
 
   const Getview = async (Eid) => {
-    const result = await API.post(`/get_News_category_ID/${Eid !== "" ? Eid : id._id}`, {}, { headers: { Authorization: `Bearer ${token}` } });
+    const result = await API.post(`/get-news-category_by_id/${Eid !== "" ? Eid : id.id}`, {}, { headers: { Authorization: `Bearer ${token}` } });
     SetData({
-      _id: result.data.Data[0]._id,
-      name: result.data.Data[0].name,
-      Image: result.data.Data[0].Image,
+      id: result.data.data.id,
+      name: result.data.data.name,
+      Image: result.data.data.Image,
     });
   };
 
   const selectpickerData = (e) => {
-    setid({ _id: e });
+    setid({ id: e });
     Getview(e);
   };
 
@@ -96,10 +96,10 @@ const View_News_category = () => {
       })
       .then(async (result) => {
         if (result.isConfirmed) {
-          const ind = reloadId.indexOf(Data._id)
+          const ind = reloadId.indexOf(Data.id)
           reloadId.splice(ind, 1)
           const formdata = new FormData()
-          formdata.append("id", Data._id)
+          formdata.append("id", Data.id)
           const result = await API.post("/delete_News_category", formdata, { headers: { Authorization: `Bearer ${token}` } });
           if (reloadId.length === 0) {
             // window.location.replace(`http://localhost:3000/news_category`)
@@ -120,7 +120,7 @@ const View_News_category = () => {
       <div className="page-heading">
         <h3><Link to="/news_category" className='btn btn-primary btn-icon-lg me-3'><i className='bx bxs-left-arrow-alt'></i></Link>View News Category</h3>
         <div className="page-heading-right">
-          <SelectPicker data={DropDropValue} defaultValue={id._id} cleanable={false} className="wv-200 my-1 ms-3" onChange={(e) => selectpickerData(e)} placeholder="Select Name" placement="bottomEnd" />
+          <SelectPicker data={DropDropValue} defaultValue={id.id} cleanable={false} className="wv-200 my-1 ms-3" onChange={(e) => selectpickerData(e)} placeholder="Select Name" placement="bottomEnd" />
           <Link to={`/Edit/news_category`}>
             <Button variant="primary ms-3 my-1" value="edit">Edit</Button>
           </Link>
